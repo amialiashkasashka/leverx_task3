@@ -2,22 +2,26 @@ import concurrent.futures
 from threading import Lock
 
 
-a = 0
-threadLock = Lock()
+
+class Solution:
+    def __init__(self):
+        self.a = 0
+        self.threadLock = Lock()
 
 
-def function(arg):
-    global a
-    for _ in range(arg):
-        with threadLock:
-            a += 1
+    def function(self, arg):
+        for _ in range(arg):
+            with self.threadLock:
+                self.a += 1
 
 
-def main():
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        for _ in range(5):
-            executor.submit(function, 1000000)
-    print("----------------------", a)  # ???
+    def main(self):
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            for _ in range(5):
+                executor.submit(self.function, 1000000)
+        print("----------------------", self.a)  # ???
 
 
-main()
+if __name__ == '__main__':
+    cls = Solution()
+    cls.main()
